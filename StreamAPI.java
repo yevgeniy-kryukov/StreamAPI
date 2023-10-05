@@ -48,8 +48,8 @@ public class StreamAPI {
     }
 
     static class Person implements Comparable<Person> {
-        private String name;
-        private Integer age;
+        private final String name;
+        private final Integer age;
 
         public Person(String name, Integer age) {
             this.name = name;
@@ -75,7 +75,7 @@ public class StreamAPI {
 
     static class PersonComparator implements Comparator<Person> {
         public int compare(Person a, Person b) {
-            if (a.age != b.age) {
+            if (!Objects.equals(a.age, b.age)) {
                 return a.age - b.age;
             }
             return a.name.toUpperCase().compareTo(b.name.toUpperCase());
