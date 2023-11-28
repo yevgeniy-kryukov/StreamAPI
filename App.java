@@ -50,6 +50,12 @@ public class App {
                 .collect(Collectors.groupingBy(Person::getAge, Collectors.groupingBy(el -> el.getAddress().getCity())));
     }
 
+    private static Map<String, Set<String>> getGroupedStreetByCities(Iterable<Person> persons) {
+        return StreamSupport.stream(persons.spliterator(), false)
+                .collect(Collectors.groupingBy(el -> el.getAddress().getCity(),
+                        Collectors.mapping(el -> el.getAddress().getStreet(), Collectors.toSet())));
+    }
+
     private static Map<Integer, Integer> getCountPersonsByAge(Iterable<Person> persons) {
         return StreamSupport.stream(persons.spliterator(), false)
                 .collect(HashMap::new,
@@ -74,7 +80,7 @@ public class App {
         strings.add("Alla Pugachova|70|Novosibirsk|Putina|123");
         strings.add("Alena Ivanova|77|Samara|Svetlaya|11");
         strings.add("Alena Ivanova|61|Tomsk|Fabrichnaya|5");
-        strings.add("Ivan Petrov|70|Moscow|Proletarskaya|10");
+        strings.add("Ivan Petrov|70|Moscow|Proletarskaya|50");
         //Collections.sort(strings);
 
         List<Person> personList = strings.stream()
@@ -102,5 +108,8 @@ public class App {
 
         System.out.println("Result of getGroupedPersonsByAgeAndCity: ");
         System.out.println(getGroupedPersonsByAgeAndCity(personList));
+
+        System.out.println("Result of getGroupedStreetByCities: ");
+        System.out.println(getGroupedStreetByCities(personList));
     }
 }
